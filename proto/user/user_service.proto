@@ -1,0 +1,12 @@
+syntax = "proto3";
+package user;
+
+option go_package = "gateway-grpc/pb/user;user";
+
+import "user/user_input_message.proto";
+import "user/user_output_message.proto";
+
+service UserService {
+    rpc RegisterUser(RegisterUserRequest) returns (RegisterUserResponse) {}
+    rpc Login(LoginRequest) returns (LoginResponse) {}
+}    
