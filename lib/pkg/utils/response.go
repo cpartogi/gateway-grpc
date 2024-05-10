@@ -1,11 +1,14 @@
 package utils
 
 import (
+	"errors"
 	"gateway-grpc/schema"
 	"net/http"
 	"time"
 
 	"github.com/labstack/echo/v4"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 // Success Response
@@ -24,16 +27,16 @@ func SuccessResponse(ctx echo.Context, message string, data interface{}) error {
 
 // Error Response
 func ErrorResponse(ctx echo.Context, err error, data interface{}) error {
-	statusCode, err := errorType(err)
-	switch statusCode {
-	case http.StatusConflict:
-		return ErrorConflictResponse(ctx, err, data)
-	case http.StatusBadRequest:
-		return ErrorBadRequest(ctx, err, data)
-	case http.StatusNotFound:
-		return ErrorNotFound(ctx, err, data)
-	case http.StatusForbidden:
-		return ErrorForbidden(ctx, err, data)
+	statusCode, _ := status.FromError(err)
+	switch statusCode.Code() {
+	case codes.AlreadyExists:
+		return ErrorConflictResponse(ctx, errors.New("already exist"), data)
+	case codes.InvalidArgument:
+		return ErrorBadRequest(ctx, errors.New(statusCode.Message()), data)
+	case codes.NotFound:
+		return ErrorNotFound(ctx, errors.New("data not found"), data)
+	case codes.PermissionDenied:
+		return ErrorForbidden(ctx, errors.New("permission denied"), data)
 	}
 	return ErrorInternalServerResponse(ctx, err, data)
 }

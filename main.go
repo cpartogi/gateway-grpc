@@ -7,9 +7,12 @@ import (
 
 	user_handler "gateway-grpc/domain/user/handler/http"
 
+	userpb "gateway-grpc/pb/user"
+
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 func main() {
@@ -30,18 +33,19 @@ func main() {
 	// authRepo := repo.NewAuthRepo(db)
 
 	// authUc := usecase.NewAuthUsecase(authRepo)
-	serviceName := "USER_SERVICE"
+	userServiceName := "USER_SERVICE"
 
-	grpcAddress := os.Getenv(serviceName)
-	grpcConn, err := grpc.Dial(grpcAddress)
+	userGrpcAddress := os.Getenv(userServiceName)
+	userGrpcConn, err := grpc.Dial(userGrpcAddress, grpc.WithTransportCredentials(insecure.NewCredentials()))
 
 	if err != nil {
-		log.Fatal("did not connect: %s", err)
+		log.Println("failed to connect user service " + err.Error())
 	} else {
-		log.Println("connected to : " + grpcAddress)
+		log.Println("connected to user service at : " + userGrpcAddress)
 	}
+	userGrpcService := userpb.NewUserServiceClient(userGrpcConn)
 
-	user_handler.NewUserHandler(e, grpcConn)
+	user_handler.NewUserHandler(e, userGrpcService)
 	// e.GET("/swagger/*", echoSwagger.WrapHandler)
 
 	// start serve
