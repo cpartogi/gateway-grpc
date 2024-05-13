@@ -1,4 +1,5 @@
 run:
+	swag init
 	go run main.go
 
 init-app:

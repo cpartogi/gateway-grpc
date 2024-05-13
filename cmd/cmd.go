@@ -8,6 +8,8 @@ import (
 
 	"gateway-grpc/route"
 
+	_ "gateway-grpc/docs"
+
 	echoSwagger "github.com/swaggo/echo-swagger"
 	"github.com/urfave/cli"
 )
@@ -22,7 +24,9 @@ func runCommand() func(*cli.Context) error {
 		route.SetupRouterUser(ctx, srv)
 
 		//swagger api documentation
-		srv.GET("/swagger/*", echoSwagger.WrapHandler)
+		if os.Getenv("ENV") != "production" {
+			srv.GET("/swagger/*", echoSwagger.WrapHandler)
+		}
 
 		// start serve
 		port := "PORT"
