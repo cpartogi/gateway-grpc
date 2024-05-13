@@ -12,6 +12,18 @@ import (
 	"google.golang.org/grpc/status"
 )
 
+// RegisterUser godoc
+// @Summary Register new user
+// @Description Register new user
+// @Tags User
+// @Accept  json
+// @Produce  json
+// @Param request body user_payload.RegisterUserInput true "Request Body"
+// @Success 200 {object} user_response.RegisterUserSwagger
+// @Failure 400 {object} user_response.BaseSwagger
+// @Failure 409 {object} user_response.BaseSwagger
+// @Failure 500 {object} user_response.BaseSwagger
+// @Router /user/register [post]
 func (h *UserHandler) RegisterUser(c echo.Context) error {
 	ctx := c.Request().Context()
 	var req user_payload.RegisterUserInput
