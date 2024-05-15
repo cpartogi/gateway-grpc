@@ -3,6 +3,7 @@ package http
 import (
 	user_payload "gateway-grpc/domain/user/payload"
 	"gateway-grpc/lib/constant"
+	"gateway-grpc/lib/helper"
 	"gateway-grpc/lib/pkg/utils"
 
 	user_response "gateway-grpc/domain/user/response"
@@ -23,10 +24,11 @@ import (
 // @Failure 500 {object} user_response.BaseSwagger
 // @Router /user/register [post]
 func (h *UserHandler) RegisterUser(c echo.Context) error {
-	ctx := c.Request().Context()
 	var req user_payload.RegisterUserInput
-
 	c.Bind(&req)
+
+	ctx, requestID := helper.GenerateRequestID()
+	c.Response().Header().Set("X-Request-ID", requestID)
 
 	id, err := h.user.RegisterUser(ctx, req.ToPB())
 	if err != nil {
