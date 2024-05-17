@@ -19,3 +19,15 @@ func (p *RegisterUserInput) ToPB() *userpb.RegisterUserRequest {
 		PhoneNumber: p.PhoneNumber,
 	}
 }
+
+type LoginInput struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
+func (p *LoginInput) ToPB() *userpb.LoginRequest {
+	return &userpb.LoginRequest{
+		Email:    p.Email,
+		Password: p.Password,
+	}
+}
