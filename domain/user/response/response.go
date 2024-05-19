@@ -22,6 +22,7 @@ type RegisterUserSwagger struct {
 
 type BaseSwagger struct {
 	schema.Base
+	Data BaseDataSwagger `json:"data"`
 }
 
 type LoginResponse struct {
@@ -29,7 +30,7 @@ type LoginResponse struct {
 	Token                 string `json:"token"`
 	TokenExpiredAt        string `json:"tokenExpiredAt"`
 	RefreshToken          string `json:"refreshToken"`
-	RefreshTokenExpiredAt string `json:"refreshTokenExpiredAt"`
+	RefreshTokenExpiredAt string `json:"refreshTokenExpiredAt,omitempty"`
 }
 
 func LoginProtoToJsonResponse(in *userpb.LoginResponse) LoginResponse {
@@ -45,4 +46,7 @@ func LoginProtoToJsonResponse(in *userpb.LoginResponse) LoginResponse {
 type LoginSwagger struct {
 	schema.Base
 	Data LoginResponse `json:"data"`
+}
+
+type BaseDataSwagger struct {
 }

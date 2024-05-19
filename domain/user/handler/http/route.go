@@ -17,4 +17,5 @@ func NewUserHandler(e *echo.Echo, user userpb.UserServiceClient) {
 
 	e.POST("/user/register", handler.RegisterUser)
 	e.POST("/user/login", handler.Login)
+	e.POST("/user/token", handler.GetToken)
 }

@@ -31,3 +31,14 @@ func (p *LoginInput) ToPB() *userpb.LoginRequest {
 		Password: p.Password,
 	}
 }
+
+type GetTokenInput struct {
+	RefreahToken string `json:"refreshToken"`
+}
+
+func (p *GetTokenInput) ToPB() *userpb.GetTokenRequest {
+	return &userpb.GetTokenRequest{
+		RefreshToken: p.RefreahToken,
+	}
+
+}
