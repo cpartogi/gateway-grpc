@@ -17,6 +17,14 @@ make init-app
 cp config-example.toml config.toml
 ```
 4. Edit `config.toml` file based on your own configuration.
+5. Create protobuf folder with command : 
+```bash 
+mkdir pb
+```
+6. Generate Proto with command : 
+```bash 
+make proto-gen
+```
 
 
 ## Run Application

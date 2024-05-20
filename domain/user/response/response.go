@@ -71,3 +71,18 @@ type UserSwagger struct {
 	schema.Base
 	Data UserResponse `json:"data"`
 }
+
+type UpdateUserResponse struct {
+	Id string `json:"id"`
+}
+
+func UpdateUserProtoToJsonResponse(in *userpb.UpdateUserResponse) UpdateUserResponse {
+	return UpdateUserResponse{
+		Id: in.Id,
+	}
+}
+
+type UpdateUserSwagger struct {
+	schema.Base
+	Data UpdateUserResponse `json:"data"`
+}

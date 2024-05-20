@@ -21,4 +21,5 @@ func NewUserHandler(e *echo.Echo, user userpb.UserServiceClient) {
 	e.POST("/user/login", handler.Login)
 	e.POST("/user/token", handler.GetToken)
 	e.GET("/user/profile", handler.GetUser, middleware.Auth)
+	e.PUT("/user/profile", handler.UpdateUser, middleware.Auth)
 }

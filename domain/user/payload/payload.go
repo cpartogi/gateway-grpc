@@ -42,3 +42,19 @@ func (p *GetTokenInput) ToPB() *userpb.GetTokenRequest {
 	}
 
 }
+
+type UpdateUserInput struct {
+	UserId      string `json:"userId"`
+	FullName    string `json:"fullName"`
+	Password    string `json:"password"`
+	PhoneNumber string `json:"phoneNumber"`
+}
+
+func (p *UpdateUserInput) ToPB() *userpb.UpdateUserRequest {
+	return &userpb.UpdateUserRequest{
+		UserId:      p.UserId,
+		FullName:    p.FullName,
+		Password:    p.Password,
+		PhoneNumber: p.PhoneNumber,
+	}
+}
