@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"gateway-grpc/lib/constant"
+	"gateway-grpc/lib/helper"
 	"gateway-grpc/lib/pkg/utils"
 	"strings"
 
@@ -14,28 +15,19 @@ func Auth(next echo.HandlerFunc) echo.HandlerFunc {
 		cekHeader := c.Request().Header
 
 		if cekHeader.Get("X-Authorization") == "" {
-			return utils.ErrorForbidden(c, constant.ErrForbidden, "")
+			return utils.ErrorBadRequest(c, constant.ErrBadRequest, map[string]interface{}{})
 		}
 
 		if !strings.Contains(cekHeader.Get("X-Authorization"), "JWT") {
-			return utils.ErrorForbidden(c, constant.ErrForbidden, "")
+			return utils.ErrorBadRequest(c, constant.ErrBadRequest, map[string]interface{}{})
 		}
 
-		return next(c)
-	}
-}
+		tokenString := strings.Replace(cekHeader.Get("X-Authorization"), "JWT ", "", -1)
 
-func AuthRefreshToken(next echo.HandlerFunc) echo.HandlerFunc {
-	return func(c echo.Context) error {
+		_, err := helper.GetDataFromToken(tokenString)
 
-		cekHeader := c.Request().Header
-
-		if cekHeader.Get("Authorization") == "" {
-			return utils.ErrorForbidden(c, constant.ErrForbidden, "")
-		}
-
-		if !strings.Contains(cekHeader.Get("Authorization"), "Bearer") {
-			return utils.ErrorForbidden(c, constant.ErrForbidden, "")
+		if err != nil {
+			return utils.ErrorBadRequest(c, constant.ErrTokenExpired, map[string]interface{}{})
 		}
 
 		return next(c)

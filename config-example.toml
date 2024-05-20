@@ -4,3 +4,4 @@ ENV=local
 PORT=10001
 
 USER_SERVICE=localhost:10006
+TOKEN_KEY=privatekey

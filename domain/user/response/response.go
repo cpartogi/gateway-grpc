@@ -50,3 +50,24 @@ type LoginSwagger struct {
 
 type BaseDataSwagger struct {
 }
+
+type UserResponse struct {
+	Id          string `json:"id"`
+	Email       string `json:"email"`
+	FullName    string `json:"fullName"`
+	PhoneNumber string `json:"phoneNumber"`
+}
+
+func UserProtoToJsonResponse(in *userpb.UserResponse) UserResponse {
+	return UserResponse{
+		Id:          in.Id,
+		Email:       in.Email,
+		FullName:    in.FullName,
+		PhoneNumber: in.PhoneNumber,
+	}
+}
+
+type UserSwagger struct {
+	schema.Base
+	Data UserResponse `json:"data"`
+}

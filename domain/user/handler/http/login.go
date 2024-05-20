@@ -26,7 +26,7 @@ func (h *UserHandler) Login(c echo.Context) error {
 	var req user_payload.LoginInput
 	c.Bind(&req)
 
-	ctx, requestID := helper.GenerateRequestID()
+	ctx, requestID := helper.GenerateRequestID(c)
 	c.Response().Header().Set("X-Request-ID", requestID)
 
 	login, err := h.user.Login(ctx, req.ToPB())

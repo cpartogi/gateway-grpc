@@ -27,7 +27,7 @@ func (h *UserHandler) RegisterUser(c echo.Context) error {
 	var req user_payload.RegisterUserInput
 	c.Bind(&req)
 
-	ctx, requestID := helper.GenerateRequestID()
+	ctx, requestID := helper.GenerateRequestID(c)
 	c.Response().Header().Set("X-Request-ID", requestID)
 
 	id, err := h.user.RegisterUser(ctx, req.ToPB())

@@ -4,6 +4,8 @@ import (
 	userpb "gateway-grpc/pb/user"
 
 	"github.com/labstack/echo/v4"
+
+	"gateway-grpc/middleware"
 )
 
 type UserHandler struct {
@@ -18,4 +20,5 @@ func NewUserHandler(e *echo.Echo, user userpb.UserServiceClient) {
 	e.POST("/user/register", handler.RegisterUser)
 	e.POST("/user/login", handler.Login)
 	e.POST("/user/token", handler.GetToken)
+	e.GET("/user/profile", handler.GetUser, middleware.Auth)
 }
